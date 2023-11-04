@@ -7,7 +7,7 @@ class UserController {
     async register(request, response) {
         const httpHelper = new HttpHelper(response);
         try {
-            const { email, password } = request.body;
+            const { email, password, nome } = request.body;
             if (!email || !password) return httpHelper.badRequest('E-mail e senha são obrigatórios!');
             const userAlreadyExists = await UserModel.findOne({ where: { email } });
             if (userAlreadyExists) return httpHelper.badRequest('E-mail de usuário já cadastrado!');
