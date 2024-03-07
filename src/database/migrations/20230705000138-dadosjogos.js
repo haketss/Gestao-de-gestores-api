@@ -1,16 +1,17 @@
-'use strict';
+
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('evento', {
+        await queryInterface.createTable('dadosjogos', {
             id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 primaryKey: true,
-                autoIncrement: true
+                autoIncrement: true,
+                unique: true
             },
-            nome: {
+            numero: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
@@ -18,15 +19,17 @@ module.exports = {
                 type: Sequelize.DATE,
                 allowNull: false,
             },
-            adendo: {
+            quemganhou: {
                 type: Sequelize.STRING,
-                allowNull: true,
-            }            
+                allowNull: false,
+            }
+                       
         });
     },
-    
+
+
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('evento');
+        await queryInterface.dropTable('dadosjogos');
     }
 };

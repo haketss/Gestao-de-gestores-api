@@ -3,7 +3,19 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { UserModel } = require('../models/user-model');
 
+
 class UserController {
+
+    async getAll(request, response) {
+        const httpHelper = new HttpHelper(response);
+        try {
+            const User = await UserModel.findAll();
+            return httpHelper.ok(User);
+        } catch (error) {
+            return httpHelper.internalError(error);
+        }
+    }
+
     async register(request, response) {
         const httpHelper = new HttpHelper(response);
         try {

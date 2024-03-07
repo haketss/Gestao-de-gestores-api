@@ -1,18 +1,17 @@
 const { HttpHelper } = require('../utils/http-helper');
-const { EventoModel } = require('../models/evento-model');
-const { Validates } = require('../utils/validates');
+const { DadosjogosModel } = require('../models/dadosjogos-model');
 
-class EventoController {
+class DadosjogosController {
     async create(request, response) {
         const httpHelper = new HttpHelper(response);
         try {
-            const { nome, data, adendo } = request.body;
-            if (   !nome, !data, !adendo) return httpHelper.badRequest('Parâmetros inválidos!');
-           
-            const evento = await EventoModel.create({
-                nome, data, adendo
+            const { numero, data, quemganhou } = request.body;
+            if    (!numero, !data, quemganhou) return httpHelper.badRequest('Parâmetros inválidos!');
+
+            const Dadojogo = await DadosjogosModel.create({
+                numero, data, quemganhou
             });
-            return httpHelper.created(evento);
+            return httpHelper.created(Dadojogo);
         } catch (error) {
             return httpHelper.internalError(error);
         }
@@ -21,8 +20,8 @@ class EventoController {
     async getAll(request, response) {
         const httpHelper = new HttpHelper(response);
         try {
-            const eventos = await EventoModel.findAll();
-            return httpHelper.ok(eventos);
+            const Dadosjogos = await DadosjogosModel.findAll();
+            return httpHelper.ok(Dadosjogos);
         } catch (error) {
             return httpHelper.internalError(error);
         }
@@ -33,12 +32,11 @@ class EventoController {
         try {
             const { id } = request.params;
             if (!id) return httpHelper.badRequest('Parâmetros inválidos!');
-            const eventoExists = await EventoModel.findOne({ where: { id } });
-            if (!eventoExists) return httpHelper.notFound('Evento não encontrado!');
-            await EventoModel.destroy({ where: { id } });
+            const DadosjogoExists = await DadosjogosModel.findOne({ where: { id } });
+            if (!DadosjogoExists) return httpHelper.notFound('Dadosjogos não encontrado!');
+            await DadosjogosModel.destroy({ where: { id } });
             return httpHelper.ok({
-                message: 'Evento deletado com sucesso!'
-                
+                message: 'Dadosjogos deletado com sucesso!'
             })
         } catch (error) {
             return httpHelper.internalError(error);
@@ -49,18 +47,18 @@ class EventoController {
         const httpHelper = new HttpHelper(response);
         try {
             const { id } = request.params;
-            const { nome, data, adendo } = request.body;
+            const { numero, data, quemganhou } = request.body;
             if (!id) return httpHelper.badRequest('Parâmetros inválidos!');
 
-            const eventoExists = await EventoModel.findByPk(id);
-            if (!eventoExists) return httpHelper.notFound('data não encontrado!');
-            await EventoModel.update({
-                nome, data, adendo
+            const DadosjogoExists = await DadosjogosModel.findByPk(id);
+            if (!DadosjogoExists) return httpHelper.notFound('Dadosjogos não encontrado!');
+            await DadosjogosModel.update({
+                numero, data, quemganhou
             }, {
                 where: { id }
             });
             return httpHelper.ok({
-                message: 'data atualizado com sucesso!'
+                message: 'Dadosjogos atualizado com sucesso!'
             });
         } catch (error) {
             return httpHelper.internalError(error);
@@ -68,4 +66,4 @@ class EventoController {
     }
 }
 
-module.exports = { EventoController };
+module.exports = { DadosjogosController };

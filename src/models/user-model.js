@@ -6,10 +6,9 @@ class UserModel extends Model {
             email: DataTypes.TEXT,
             password: DataTypes.TEXT,
             nome: DataTypes.TEXT
-
+           
         }, {
             tableName: 'user',
-            modelName: 'UserModel',
             timestamps: false,
             sequelize: database
         });
