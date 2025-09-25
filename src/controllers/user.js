@@ -1,5 +1,5 @@
 const { HttpHelper } = require("../utils/http-helper");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const { UserModel } = require('../models/user-model');
 
@@ -20,6 +20,7 @@ class UserController {
         const httpHelper = new HttpHelper(response);
         try {
             const { email, password, nome } = request.body;
+
             if (!email || !password) return httpHelper.badRequest('E-mail e senha são obrigatórios!');
             const userAlreadyExists = await UserModel.findOne({ where: { email } });
             if (userAlreadyExists) return httpHelper.badRequest('E-mail de usuário já cadastrado!');
@@ -39,6 +40,7 @@ class UserController {
             );
             return httpHelper.created({ accessToken });
         } catch (error) {
+            console.error("Erro no registro de usuário:", error);
             return httpHelper.internalError(error);
         }
     }

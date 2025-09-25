@@ -1,12 +1,14 @@
 const { Sequelize } = require('sequelize');
 const configDatabase = require('./config');
 
-const { DadosjogosModel } = require('../models/dadosjogos-model');
+const { GestorModel } = require('../models/gestor-model');
 const { UserModel } = require('../models/user-model');
+const { EventoModel } = require('../models/evento-model');
 
 const database = new Sequelize(configDatabase);
 
-DadosjogosModel.init(database);
+GestorModel.init(database);
 UserModel.init(database);
+EventoModel.init(database);
 
 module.exports = database;
