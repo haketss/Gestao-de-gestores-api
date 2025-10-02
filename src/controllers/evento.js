@@ -49,7 +49,6 @@ class EventoController {
         try {
             const { id } = request.params;
             const { nome, data, adendo } = request.body;
-
             if (!id) return httpHelper.badRequest('Parâmetros inválidos!');
 
             const eventoExists = await EventoModel.findByPk(id);
